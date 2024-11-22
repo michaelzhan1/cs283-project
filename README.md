@@ -1,1 +1,2 @@
-# cs283-project
+# Rotating Camera Self-Calibration
+An implementation of rotating camera self-calibration following [this paper](https://link.springer.com/chapter/10.1007/3-540-57956-7_52) (Hartley 1994) and section 19.6 of Multiple View Geometry in Computer Vision by Hartley and Zisserman.
