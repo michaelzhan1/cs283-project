@@ -21,3 +21,8 @@ def generate_points(rows, cols):
     points = np.hstack([points, np.zeros((rows * cols, 1)), np.ones((rows * cols, 1))])
     points += center
     return points
+
+def jitter_image_points(points, sigma=1, seed=0):
+    np.random.seed(seed)
+    noise = np.random.normal(scale=sigma, size=points.shape)
+    return points + noise
