@@ -1,8 +1,9 @@
 import numpy as np
 
-def generate_points_random(n, seed=0):
+def generate_points_random(n, seed=None):
     """Generate n random points in 3D space"""
-    np.random.seed(seed)
+    if seed is not None:
+        np.random.seed(seed)
     # generate random x and y coordinates
     points_xy = np.random.uniform(-5, 5, (n, 2))
     # add z and w coordinates
@@ -23,7 +24,9 @@ def generate_points(rows, cols):
     points += center
     return points
 
-def jitter_image_points(points, sigma=1, seed=0):
-    np.random.seed(seed)
+def jitter_image_points(points, sigma=1, seed=None):
+    """Add gaussian noise"""
+    if seed is not None:
+        np.random.seed(seed)
     noise = np.random.normal(scale=sigma, size=points.shape)
     return points + noise
