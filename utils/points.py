@@ -3,11 +3,12 @@ import numpy as np
 def generate_points_random(n, seed=0):
     """Generate n random points in 3D space"""
     np.random.seed(seed)
-    points = np.random.uniform(-1, 1, (n, 4))
-    points[:, 0] *= 2
-    points[:, 1] *= 2
-    points[:, 2] += 5
-    points[:, 3] = 1
+    # generate random x and y coordinates
+    points_xy = np.random.uniform(-5, 5, (n, 2))
+    # add z and w coordinates
+    points_z = np.random.uniform(20, 30, (n, 1))
+    points_w = np.ones((n, 1))
+    points = np.hstack([points_xy, points_z, points_w])
     return points
 
 def generate_points(rows, cols):

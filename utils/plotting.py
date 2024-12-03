@@ -19,7 +19,7 @@ def points_to_image(points2d, h=300, w=300, r=5):
                     break
     return arr
 
-def plot_points_as_image(*points2d, titles=None):
+def plot_points_as_image(*points2d, h=300, w=300, titles=None):
     """Plot points with same coordinate system as plt.imshow (inverted y axis, row-first)"""
     n = len(points2d)
     fig = plt.figure(figsize=(5 * n, 5))
@@ -30,8 +30,8 @@ def plot_points_as_image(*points2d, titles=None):
         ax.scatter([points[0, 1]], [points[0, 0]], c='r')
         ax.scatter([points[1, 1]], [points[1, 0]], c='g')
         ax.set_aspect('equal')
-        ax.set_xlim(0, 300)
-        ax.set_ylim(300, 0)
+        ax.set_xlim(-w // 2, w // 2)
+        ax.set_ylim(h // 2, -h // 2)
         if titles is not None:
             ax.set_title(titles[i])
     plt.show()
