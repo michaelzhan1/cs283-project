@@ -46,3 +46,16 @@ def plot_multiple_images(*images, titles=None):
         if titles is not None:
             ax.set_title(titles[i])
     plt.show()
+
+def get_title_from_orientation(orientation):
+    """Get a plot title from an (x,y,z) orientation"""
+    if orientation == (0, 0, 0):
+        return "Original"
+    title = "Rotation: "
+    if orientation[0] != 0:
+        title += f"x={orientation[0]} "
+    if orientation[1] != 0:
+        title += f"y={orientation[1]} "
+    if orientation[2] != 0:
+        title += f"z={orientation[2]} "
+    return title[:-1]
