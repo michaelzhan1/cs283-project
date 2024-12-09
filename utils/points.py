@@ -7,7 +7,7 @@ def generate_points_random(n, seed=None):
     # generate random x and y coordinates
     points_xy = np.random.uniform(-5, 5, (n, 2))
     # add z and w coordinates
-    points_z = np.random.uniform(15, 25, (n, 1))
+    points_z = np.random.uniform(10, 25, (n, 1))
     points_w = np.ones((n, 1))
     points = np.hstack([points_xy, points_z, points_w])
     return points

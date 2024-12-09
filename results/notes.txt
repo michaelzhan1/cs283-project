@@ -1,0 +1,3 @@
+z axis only:
+base camera, 10 deg either way in x and y
+z rotates n degrees in each direction. cap at 90 degrees because any larger becomes the reflected case.
