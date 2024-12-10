@@ -1,3 +1,11 @@
-z axis only:
+z axis: (sigma=5)
 base camera, 10 deg either way in x and y
 z rotates n degrees in each direction. cap at 90 degrees because any larger becomes the reflected case.
+
+range:
+base camera
+x, y, z rotates n times evenly to 10 degrees in each direction.
+
+combo:
+base camera, 10 deg either way in x, y, z
+add some amount of cameras with (+/-10, +/-10, +/-10) orientation
