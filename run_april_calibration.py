@@ -4,7 +4,7 @@ import glob
 APRILBOARD_PATH = 'data/AprilBoards.pkl'
 
 def main():
-    images = glob.glob('./data/real/aprilboards/*.jpg')
+    images = glob.glob('./data/real/aprilboards/old/img*.jpg')
     valid_files = check_images(images, 'coarse', APRILBOARD_PATH)
     print(valid_files)
     matrix = calibrate(valid_files, 'coarse', APRILBOARD_PATH)

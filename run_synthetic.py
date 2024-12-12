@@ -7,7 +7,7 @@ from utils.plotting import get_title_from_orientation
 from utils.points import generate_points_random, jitter_image_points
 from utils.results import get_relative_error, write_results, write_errors
 
-def run_z_angle_exp(z_orientation):
+def run_z_angle_exp(z_orientation, sigma):
     # original camera
     P, K, C = build_camera_matrix(1000, 1000, 0, 0, 0, np.array([0, 0, 0, 1]))
 
@@ -19,13 +19,12 @@ def run_z_angle_exp(z_orientation):
         (10, 0, 0),
         (-10, 0, 0),
     ]
-
     orientations.append((0, 0, z_orientation))
     orientations.append((0, 0, -z_orientation))
-    name = f'z{z_orientation}'
 
     cams = [get_rotated_camera(K, C, *o, deg=True) for o in orientations]
-    titles = [get_title_from_orientation(o) for o in orientations]
+
+    name = f'z{z_orientation}'
 
     results = []
     errors = []
@@ -35,7 +34,7 @@ def run_z_angle_exp(z_orientation):
 
         points_2dh = [points_3dh @ cam.T for cam in cams]
         points_2d = [pts[:, :2] / pts[:, 2].reshape(-1, 1) for pts in points_2dh]
-        points_2d_jittered = [jitter_image_points(pts, sigma=5) for pts in points_2d]
+        points_2d_jittered = [jitter_image_points(pts, sigma=sigma) for pts in points_2d]
 
         
         recovered_k = calibrate(*points_2d_jittered)
@@ -47,7 +46,7 @@ def run_z_angle_exp(z_orientation):
     write_results(results, f'results/results_{name}.csv')
     write_errors(errors, f'results/errors_{name}.csv')
 
-def run_range_exp(count, max_x, max_y, max_z):
+def run_range_exp(count, max_z, sigma):
     if count % 2 == 1:
         print('count must be even')
         sys.exit(1)
@@ -67,10 +66,6 @@ def run_range_exp(count, max_x, max_y, max_z):
     for i in range(1, count // 2 + 1):
         orientations.append((0, 0, i * max_z / (count // 2)))
         orientations.append((0, 0, -i * max_z / (count // 2)))
-        # orientations.append((0, i * max_y / (count // 2), 0))
-        # orientations.append((0, -i * max_y / (count // 2), 0))
-        # orientations.append((i * max_x / (count // 2), 0, 0))
-        # orientations.append((-i * max_x / (count // 2), 0, 0))
     
     cams = [get_rotated_camera(K, C, *o, deg=True) for o in orientations]
 
@@ -84,7 +79,7 @@ def run_range_exp(count, max_x, max_y, max_z):
 
         points_2dh = [points_3dh @ cam.T for cam in cams]
         points_2d = [pts[:, :2] / pts[:, 2].reshape(-1, 1) for pts in points_2dh]
-        points_2d_jittered = [jitter_image_points(pts, sigma=4) for pts in points_2d]
+        points_2d_jittered = [jitter_image_points(pts, sigma=sigma) for pts in points_2d]
 
         
         recovered_k = calibrate(*points_2d_jittered)
@@ -96,7 +91,7 @@ def run_range_exp(count, max_x, max_y, max_z):
     write_results(results, f'results/range/results_{name}.csv')
     write_errors(errors, f'results/range/errors_{name}.csv')
 
-def run_extra_combo_exp(num_extra):
+def run_extra_combo_exp(num_extra, sigma):
     # original camera
     P, K, C = build_camera_matrix(1000, 1000, 0, 0, 0, np.array([0, 0, 0, 1]))
 
@@ -130,7 +125,7 @@ def run_extra_combo_exp(num_extra):
 
         points_2dh = [points_3dh @ cam.T for cam in cams]
         points_2d = [pts[:, :2] / pts[:, 2].reshape(-1, 1) for pts in points_2dh]
-        points_2d_jittered = [jitter_image_points(pts, sigma=10) for pts in points_2d]
+        points_2d_jittered = [jitter_image_points(pts, sigma=sigma) for pts in points_2d]
 
         
         recovered_k = calibrate(*points_2d_jittered)
@@ -144,14 +139,16 @@ def run_extra_combo_exp(num_extra):
 
 def main():
     # for z_orientation in range(10, 91, 10):
-    #     run_z_angle_exp(z_orientation)
+    #     run_z_angle_exp(z_orientation, sigma=5)
+
     # for count in range(2, 11, 2):
-    #     run_range_exp(count, 10, 10, 90)
+    #     run_range_exp(count, 90, sigma=5)
     
     for num_extra in range(1, 9):
-        run_extra_combo_exp(num_extra)
-    # TODO: save points in synthetic folder?
-
+        run_extra_combo_exp(num_extra, sigma=5)
+    
+    # TODO: run an extra combo, but add orientations either on the new rotation or not
+    # e.g., (10, 10, 30) on top of the existing (10, 10, 45)
 
 if __name__ == "__main__":
     main()
