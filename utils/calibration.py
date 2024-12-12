@@ -11,7 +11,10 @@ def reconstruct_k(w_coeffs):
     
     w /= w[2, 2]
 
-    U = np.linalg.cholesky(w, upper=False)
+    try:
+        U = np.linalg.cholesky(w, upper=False)
+    except np.linalg.LinAlgError:
+        U = np.linalg.cholesky(w + 1e-6 * np.eye(3), upper=False)
     K = np.linalg.inv(U).T
     K /= K[2, 2]
     return K
