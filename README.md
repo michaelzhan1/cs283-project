@@ -18,7 +18,7 @@ A notebook used for result analysis
 This folder holds the notebook used to mimic a typical assignment problem from CS283, to be potentially used in a future assignment.
 
 ## `data/`
-This holds the data used in the experiments. `AprilBoards.pkl` at the top level holds binary information regarding the AprilTags themselves, used in ground-truth calibration. The `synthetic/` folder holds pickled 3D points used for synthetic data experiments. `real/aprilboards/` and `real/scene` hold images of AprilTags and images taken from the rotating camera, respectively, used in real data experiments.
+This holds the data used in the experiments. `AprilBoards.pkl` at the top level holds binary information regarding the AprilTags themselves, used in ground-truth calibration. The `synthetic/` folder holds pickled 3D points used in old notebooks. `real/aprilboards/` and `real/scene` hold images of AprilTags and images taken from the rotating camera, respectively, used in real data experiments.
 
 ## `old_notebooks/`
 This contains old notebooks used during testing. These notebooks are **not** expected to work immediately, and may require moving back to the top level or additional editing to work. All important contents of these folders have been moved to scripts or modules, and what remains is mostly plots.
