@@ -130,7 +130,7 @@ def run_extra_combo_exp(num_extra):
 
         points_2dh = [points_3dh @ cam.T for cam in cams]
         points_2d = [pts[:, :2] / pts[:, 2].reshape(-1, 1) for pts in points_2dh]
-        points_2d_jittered = [jitter_image_points(pts, sigma=4) for pts in points_2d]
+        points_2d_jittered = [jitter_image_points(pts, sigma=10) for pts in points_2d]
 
         
         recovered_k = calibrate(*points_2d_jittered)

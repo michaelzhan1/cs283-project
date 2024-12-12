@@ -53,6 +53,41 @@ def get_homography(X1, X2, normalize=False):
         H /= factor
     return H
 
+def get_homography_ransac(X1, X2):
+    # set up ransac
+    rng = np.random.default_rng()
+    n = X1.shape[0]
+
+    num_iters = 100
+    distance_threshold = 2
+
+    best_idxs = None
+    best_count = 0
+    for _ in range(num_iters):
+        # pick 4 random points and find the homography matrix H
+        idxs = rng.choice(n, size=4, replace=False)
+        X = X1[idxs]
+        Xp = X2[idxs]
+        H = get_homography(X, Xp)
+
+        # calculate expected X2 values based on H
+        theoretical_X2h = np.hstack([X1, np.ones((n, 1))]) @ H.T
+        theoretical_X2 = theoretical_X2h[:, :2] / theoretical_X2h[:, 2:]
+
+        # find consensus set based on L2 distance between X2 and expected
+        distances = np.sqrt(((X2 - theoretical_X2) ** 2).sum(axis=1))
+        inlier_mask = distances <= distance_threshold ** 2
+        inlier_count = inlier_mask.sum()
+        inlier_idxs = inlier_mask.nonzero()
+        if inlier_count > best_count:
+            best_count = inlier_count
+            best_idxs = inlier_idxs
+
+    # with the best consensus set, re-fit H and return
+    X, Xp = X1[best_idxs], X2[best_idxs]
+    H = get_homography(X, Xp, normalize=True)
+    return H
+
 def apply_homography(Iin, H, bounds=None, gray=False):
     """Apply a homography to a full image"""
     n, m = Iin.shape[:2]
