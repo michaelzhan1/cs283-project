@@ -1,8 +1,9 @@
+import os
+import glob
 import cv2
 import numpy as np                      
 import pickle
 from pupil_apriltags import Detector
-import matplotlib.pyplot as plt
 
 def _detect_aprilboard(img, board, apriltag_detector):
     # Usage:  imgpoints, objpoints, tag_ids = detect_aprilboard(img,board,AT_detector)
@@ -155,8 +156,7 @@ def calibrate(images, board_type, board_file):
     return calMatrix
 
 def main():
-    images = [f'../aprildata/data/img{i}.jpg' for i in range(12)]
-
+    images = [os.path.relpath(f, start='./') for f in sorted(glob.glob('../aprildata/camera_data/april/*.jpg'))]
     valid_files = check_images(images, 'coarse', '../aprildata/AprilBoards.pkl')
     matrix = calibrate(valid_files, 'coarse', '../aprildata/AprilBoards.pkl')
     print(matrix)
