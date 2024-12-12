@@ -43,8 +43,8 @@ def run_z_angle_exp(z_orientation, sigma):
         results.append(recovered_k)
         errors.append(error)
 
-    write_results(results, f'results/results_{name}.csv')
-    write_errors(errors, f'results/errors_{name}.csv')
+    write_results(results, f'results/zaxis/results_{name}.csv')
+    write_errors(errors, f'results/zaxis/errors_{name}.csv')
 
 def run_range_exp(count, max_z, sigma):
     if count % 2 == 1:
@@ -138,11 +138,11 @@ def run_extra_combo_exp(num_extra, sigma):
     write_errors(errors, f'results/combo/errors_{name}.csv')
 
 def main():
-    # for z_orientation in range(10, 91, 10):
-    #     run_z_angle_exp(z_orientation, sigma=5)
+    for z_orientation in range(10, 91, 10):
+        run_z_angle_exp(z_orientation, sigma=5)
 
-    # for count in range(2, 11, 2):
-    #     run_range_exp(count, 90, sigma=5)
+    for count in range(2, 11, 2):
+        run_range_exp(count, 90, sigma=5)
     
     for num_extra in range(1, 9):
         run_extra_combo_exp(num_extra, sigma=5)
