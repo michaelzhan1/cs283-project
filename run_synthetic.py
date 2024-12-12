@@ -150,6 +150,7 @@ def main():
     
     for num_extra in range(1, 9):
         run_extra_combo_exp(num_extra)
+    # TODO: save points in synthetic folder?
 
 
 if __name__ == "__main__":
