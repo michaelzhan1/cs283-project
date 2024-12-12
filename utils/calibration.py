@@ -104,6 +104,8 @@ def calibrate_from_real_images(image_files):
 
         A = np.vstack([A, row1, row2, row3, row4, row5, row6])
 
+    A = np.vstack([A, np.array([0, 10000, 0, 0, 0, 0])])
+    A = np.vstack([A, np.array([0.0001, 0, -0.0001, 0, 0, 0])])
     _, _, Vt = np.linalg.svd(A)
     w_coeffs = Vt[5, :]
     K = reconstruct_k(w_coeffs)
