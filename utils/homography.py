@@ -53,7 +53,7 @@ def get_homography(X1, X2, normalize=False):
         H /= factor
     return H
 
-def apply_homography(Iin, H, bounds=None):
+def apply_homography(Iin, H, bounds=None, gray=False):
     """Apply a homography to a full image"""
     n, m = Iin.shape[:2]
 
@@ -77,15 +77,25 @@ def apply_homography(Iin, H, bounds=None):
     X = Xh[:, :2] / Xh[:, 2].reshape(-1, 1)
 
     # For a point in Ip, its corresponding point in I is found at a coordinate in X
-    res = np.zeros((n, m, 3))
-    for i in range(3):
-        I = Iin[:, :, i]
+    if gray:
+        res = np.zeros((n, m))
         interpolator = RegularGridInterpolator(
-            (np.arange(I.shape[0]), np.arange(I.shape[1])),
-            I,
+            (np.arange(Iin.shape[0]), np.arange(Iin.shape[1])),
+            Iin,
             bounds_error=False,
             fill_value=0
         )
-        Ip = interpolator(X).reshape(m, n)
-        res[:, :, i] = Ip
+        res = interpolator(X).reshape(n, m)
+    else:
+        res = np.zeros((n, m, 3))
+        for i in range(3):
+            I = Iin[:, :, i]
+            interpolator = RegularGridInterpolator(
+                (np.arange(I.shape[0]), np.arange(I.shape[1])),
+                I,
+                bounds_error=False,
+                fill_value=0
+            )
+            Ip = interpolator(X).reshape(n, m)
+            res[:, :, i] = Ip
     return np.clip(res, 0, 1)
