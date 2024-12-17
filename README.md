@@ -1,6 +1,11 @@
 # Rotating Camera Self-Calibration
 An implementation of rotating camera self-calibration following [this paper](https://link.springer.com/chapter/10.1007/3-540-57956-7_52) (Hartley 1994) and section 19.6 of Multiple View Geometry in Computer Vision by Hartley and Zisserman.
 
+# At a Glance
+The main experiment scripts are `run_april_calibration.py`, `run_real.py`, and `run_synthetic.py`. They run calibration of AprilTag boards, self-calibration of real images, and self-calibration on synthetic data, respectively. All inputs are stored in the `data/` folder, and all outputs are in the `results/` folder. `analysis.ipynb` was used for plot generation and analysis of results from the experiments. All other Jupyter notebooks are out-of-date and were used for developing utility modules. See more information regarding the repository components below.
+
+**Note**: Due to potential issues with the AprilTag library, `run_april_calibration.py` is unreliable to run. After running it enough times, it should give an output.
+
 # Repo Structure
 The repository is structured as follows:
 
