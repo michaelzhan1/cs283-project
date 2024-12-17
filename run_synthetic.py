@@ -98,8 +98,8 @@ def run_extra_combo_exp(num_extra, sigma):
     # orientations (degree rotations in (x, y, z))
     orientations = [
         (0, 0, 0),
-        (0, 0, -10),
-        (0, 0, 10),
+        (0, 0, -45),
+        (0, 0, 45),
         (0, -10, 0),
         (0, 10, 0),
         (10, 0, 0),
@@ -144,11 +144,8 @@ def main():
     for count in range(2, 11, 2):
         run_range_exp(count, 90, sigma=5)
     
-    for num_extra in range(1, 9):
+    for num_extra in range(9):
         run_extra_combo_exp(num_extra, sigma=5)
-    
-    # TODO: run an extra combo, but add orientations either on the new rotation or not
-    # e.g., (10, 10, 30) on top of the existing (10, 10, 45)
 
 if __name__ == "__main__":
     main()
